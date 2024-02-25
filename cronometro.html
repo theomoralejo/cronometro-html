@@ -1,0 +1,105 @@
+<style>
+body {
+background-color: black
+}
+.row{
+	position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+}
+
+.number {
+    font-weight: 500;
+    font-family: Vinila, sans serif;
+    font-size: clamp(1.9em, 1.9154rem + 0.8205vw, 1.0rem);
+    letter-spacing: -0.06em;
+    line-height: 100%;
+}
+
+.text {
+    font-size: 0.8em;
+    font-family: Vinila, sans serif;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 90%;
+    color: white;
+}
+.column {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    color: white;
+    gap: 0;
+}
+</style>
+
+<div id="timer" class="row">
+    <div id="days" class="column">
+    <span class="number"></span> 
+    <span class="text">dias</span>
+    </div>
+    <div id="hours" class="column">
+    <span class="number"></span> 
+    <span class="text">horas</span>
+    </div>
+    <div id="minutes" class="column">
+    <span class="number"></span> 
+    <span class="text">mins</span>
+    </div>
+    <div id="seconds" class="column">
+    <span class="number"></span> 
+    <span class="text">segs</span>
+    </div>
+</div>
+
+<script>
+function countdown() {
+    let now = new Date();
+    let eventDate = new Date(2024, 2, 7, 20, 0, 0); // Janeiro é 0, Fevereiro é 1, etc.
+    let currentTime = now.getTime();
+    let eventTime = eventDate.getTime();
+    let remTime = eventTime - currentTime;
+
+    if (remTime <= 0) {
+        // Ação a ser realizada quando o contador atingir 0
+        document.getElementById("days").querySelector(".number").textContent = "0";
+        document.getElementById("hours").querySelector(".number").textContent = "0";
+        document.getElementById("minutes").querySelector(".number").textContent = "0";
+        document.getElementById("seconds").querySelector(".number").textContent = "0";
+
+        // Exibe uma mensagem ou realiza outra ação
+        //alert("O evento começou!");
+
+        // Para o contador para evitar que ele vá para valores negativos
+        return; // Sai da função para não reagendar a si mesma
+    }
+
+    let s = Math.floor(remTime / 1000);
+    let m = Math.floor(s / 60);
+    let h = Math.floor(m / 60);
+    let d = Math.floor(h / 24);
+
+    h %= 24;
+    m %= 60;
+    s %= 60;
+
+    h = (h < 10) ? "0" + h : h;
+    m = (m < 10) ? "0" + m : m;
+    s = (s < 10) ? "0" + s : s;
+
+    document.getElementById("days").querySelector(".number").textContent = d;
+    document.getElementById("hours").querySelector(".number").textContent = h;
+    document.getElementById("minutes").querySelector(".number").textContent = m;
+    document.getElementById("seconds").querySelector(".number").textContent = s;
+
+    setTimeout(countdown, 1000);
+}
+
+countdown();
+</script>
